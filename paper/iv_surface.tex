@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{amsmath,graphicx}
+
+\title{Robust Construction of Implied Volatility Surfaces from Noisy Option Data}
+\author{Your Name}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Implied volatility surfaces are central to derivatives pricing and risk management.
+However, raw option chain data often contains noise and arbitrage violations.
+
+\section{Implied Volatility Estimation}
+We compute implied volatility by numerically inverting the Black--Scholes model.
+
+\section{Static Arbitrage Constraints}
+We enforce calendar and butterfly arbitrage constraints to ensure economic consistency.
+
+\section{Surface Construction}
+We compare spline-based interpolation with SABR parameterization.
+
+\section{Empirical Results}
+We demonstrate improved stability and reduced arbitrage violations across maturities.
+
+\section{Conclusion}
+The proposed framework provides a robust and extensible open-source solution.
+
+\end{document}
