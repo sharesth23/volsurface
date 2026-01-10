@@ -55,7 +55,7 @@ surfaces are handled in **professional derivatives research and risk systems**.
 - ✅ Research paper (LaTeX) included  
 
 ---
-##🗂️ Repository Structure
+## 🗂️ Repository Structure
 
 ```
 volsurface/
@@ -111,14 +111,19 @@ plot_smile(
 print("SABR RMSE:", results["SABR_RMSE"])
 print("SVI RMSE:", results["SVI_RMSE"])
 
+```
+
+
 ---
 
-## 📦 Installation
+## INSTALLATION
 
 ```bash
 git clone https://github.com/sharesth23/volsurface.git
 cd volsurface
 pip install -e .
+
+---
 
 
 
