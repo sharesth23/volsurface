@@ -56,6 +56,36 @@ surfaces are handled in **professional derivatives research and risk systems**.
 - ✅ Research paper (LaTeX) included  
 
 ---
+##🗂️ Repository Structure
+volsurface/
+│
+├── src/volsurface/
+│   ├── iv/
+│   │   └── black_scholes.py        # Black–Scholes pricing & IV
+│   │
+│   ├── models/
+│   │   ├── sabr.py                 # SABR volatility model
+│   │   ├── sabr_calibration.py     # SABR calibration routines
+│   │   ├── svi.py                  # SVI total variance model
+│   │   └── svi_calibration.py      # SVI calibration routines
+│   │
+│   ├── surface/
+│   │   └── surface_builder.py      # Volatility surface abstraction
+│   │
+│   ├── benchmark/
+│   │   ├── metrics.py              # Error metrics (RMSE)
+│   │   └── benchmark_runner.py     # SABR vs SVI comparison
+│   │
+│   ├── visualization/
+│   │   ├── smile.py                # Volatility smile plots
+│   │   └── errors.py               # Model error diagnostics
+│
+├── tests/                          # Unit tests (CI enforced)
+├── paper/                          # LaTeX research paper
+├── README.md
+├── pyproject.toml
+├── LICENSE
+---
 
 ## 📦 Installation
 
@@ -63,3 +93,7 @@ surfaces are handled in **professional derivatives research and risk systems**.
 git clone https://github.com/sharesth23/volsurface.git
 cd volsurface
 pip install -e .
+
+
+
+
