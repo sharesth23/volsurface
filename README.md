@@ -35,3 +35,22 @@ Build an **extensible open-source framework** that:
 - and supports reproducible academic analysis.
 
 ---
+
+## ✨ Key Features
+
+- ✅ Black–Scholes implied volatility engine  
+- ✅ **SABR model** with constrained calibration  
+- ✅ **SVI model** (total variance parameterization)  
+- ✅ **Benchmark framework** (SABR vs SVI using RMSE)  
+- ✅ Diagnostic plots (smiles & model errors)  
+- ✅ Modular **pip-installable** package structure  
+- ✅ Research paper (LaTeX) included  
+
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/sharesth23/arbitragelab-volsurface.git
+cd volsurface
+pip install -e .
