@@ -1,6 +1,6 @@
 import numpy as np 
 
-def vol_surface_shifts( pre_event_surface , post_event_surface ):
+def vol_surface_shifts( pre_event_surface , post_event_surface):
     shifts= {}
 
     for K in strikes:
