@@ -11,3 +11,27 @@
 
 The project is intentionally designed as a **Google Summer of Code (GSoC)–level contribution**, combining
 **academic volatility modeling**, **robust numerical methods**, and **open-source engineering best practices**.
+
+---
+
+## 🎯 GSoC Motivation & Problem Statement
+
+Implied volatility surfaces are a central object in:
+
+- derivatives pricing
+- volatility trading
+- portfolio risk management
+
+Yet real option chain data is **noisy, sparse, and often violates economic consistency**.
+Most student projects stop at plotting volatility smiles — this project focuses on:
+
+> **Correctness, robustness, and research reproducibility.**
+
+### Project Goal
+Build an **extensible open-source framework** that:
+- calibrates industry-standard volatility models,
+- benchmarks competing parameterizations,
+- produces diagnostics used by professional derivatives desks,
+- and supports reproducible academic analysis.
+
+---
