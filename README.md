@@ -56,39 +56,41 @@ surfaces are handled in **professional derivatives research and risk systems**.
 
 ---
 ##🗂️ Repository Structure
+
+```
 volsurface/
-│
-├── src/volsurface/
-│   ├── iv/
-│   │   └── black_scholes.py        # Black–Scholes pricing & IV
-│   │
-│   ├── models/
-│   │   ├── sabr.py                 # SABR volatility model
-│   │   ├── sabr_calibration.py     # SABR calibration routines
-│   │   ├── svi.py                  # SVI total variance model
-│   │   └── svi_calibration.py      # SVI calibration routines
-│   │
-│   ├── surface/
-│   │   └── surface_builder.py      # Volatility surface abstraction
-│   │
-│   ├── benchmark/
-│   │   ├── metrics.py              # Error metrics (RMSE)
-│   │   └── benchmark_runner.py     # SABR vs SVI comparison
-│   │
-│   ├── visualization/
-│   │   ├── smile.py                # Volatility smile plots
-│   │   └── errors.py               # Model error diagnostics
-│
-├── tests/                          # Unit tests (CI enforced)
-├── paper/                          # LaTeX research paper
-├── README.md
-├── pyproject.toml
-├── LICENSE
+├── cleaning/
+│   └── arbitrage.py          # Arbitrage detection and data cleaning
+├── data/
+│   └── fetch_yahoo.py        # Market data fetching (Yahoo Finance, etc.)
+├── experiments/
+│   └── earnings_event.py     # Research experiments (earnings events, etc.)
+├── iv/
+│   └── black_scholes.py      # Black-Scholes implied volatility calculations
+├── models/
+│   ├── sabr.py               # SABR volatility model
+│   ├── sabr_calibration.py   # SABR model calibration
+│   ├── svi.py                # SVI volatility model
+│   └── svi_calibration.py    # SVI model calibration
+├── paper/
+│   └── iv_surface.tex        # LaTeX research paper
+├── surface/
+│   └── surface_builder.py    # Volatility surface construction
+├── tests/
+│   ├── test_arbitrage.py     # Arbitrage detection tests
+│   ├── test_bs.py            # Black-Scholes tests
+│   └── test_sabr.py          # SABR model tests
+├── validation/
+│   └── no_arbitrage.py       # No-arbitrage validation
+└── visualization/
+    ├── smile_plot.py         # Volatility smile plotting
+    └── surface_plot.py       # Volatility surface plotting
+```
 
 ---
 ## 📊 Benchmarking: SABR vs SVI
   The library includes a dedicated benchmark pipeline to compare model performance quantitatively.
-#python code 
+```python code 
 from volsurface.benchmark.benchmark_runner import run_benchmark
 from volsurface.visualization.smile import plot_smile
 
