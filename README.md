@@ -85,6 +85,31 @@ volsurface/
 ├── README.md
 ├── pyproject.toml
 ├── LICENSE
+
+---
+## 📊 Benchmarking: SABR vs SVI
+  The library includes a dedicated benchmark pipeline to compare model performance quantitatively.
+#python code 
+from volsurface.benchmark.benchmark_runner import run_benchmark
+from volsurface.visualization.smile import plot_smile
+
+F = 100
+T = 1.0
+strikes = [80, 90, 100, 110, 120]
+market_vols = [0.35, 0.30, 0.25, 0.27, 0.32]
+
+results = run_benchmark(F, strikes, T, market_vols)
+
+plot_smile(
+    strikes,
+    market_vols,
+    results["SABR_VOL"],
+    results["SVI_VOL"]
+)
+
+print("SABR RMSE:", results["SABR_RMSE"])
+print("SVI RMSE:", results["SVI_RMSE"])
+
 ---
 
 ## 📦 Installation
