@@ -9,3 +9,4 @@ def calendar_arbitrage_check(df: pd.Dataframe):
     for strike , grp in df.groupby ("strike")
       T = grp["time_to_maturity"].values 
       iv = grp["implied_vol"].values 
+      
