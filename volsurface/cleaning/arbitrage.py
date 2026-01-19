@@ -1,25 +1,29 @@
 import pandas as pd
 import numpy as np
+from typing import Optional
+from volsurface.data.fetch_yahoo import load_all_expiries
 
 
-def calendar_arbitrage(df: pd.DataFrame):
-    """
-    Check for calendar arbitrage violations in option data.
+def calendar_arbitrage(
+    df: Optional[pd.DataFrame] = None,
+    ticker: Optional[str] = None,
+    expiry: Optional[str] = None
+):
+    if df is None:
+        if ticker is not None:
+            option_data = load_all_expiries(ticker)
+            current_date = pd.Timestamp.now()
+            option_data['time_to_maturity'] = (
+                pd.to_datetime(option_data['expiry']) - current_date
+            ).dt.days / 365.0
 
-    Calendar arbitrage occurs when a longer-dated option has lower implied
-    volatility than a shorter-dated option at the same strike, which violates
-    the no-arbitrage condition.
+            df = pd.DataFrame({
+                'strike': option_data['strike'].values,
+                'time_to_maturity': option_data['time_to_maturity'].values,
+                'implied_vol': option_data['impliedVolatility'].values
+            })
+            df = df.dropna(subset=['implied_vol'])
 
-    Parameters:
-    -----------
-    df : pd.DataFrame
-        DataFrame with columns: 'strike', 'time_to_maturity', 'implied_vol'
-
-    Returns:
-    --------
-    list
-        List of strikes that have calendar arbitrage violations
-    """
     df = df.copy()
     df = df.sort_values(["strike", "time_to_maturity"])
     violations = []
@@ -28,16 +32,11 @@ def calendar_arbitrage(df: pd.DataFrame):
         T = grp["time_to_maturity"].values
         iv = grp["implied_vol"].values
 
-        # Check if IV decreases as time to maturity increases
-        # This would indicate a calendar arbitrage violation
         if len(T) > 1:
-            # Sort by time to maturity to ensure proper comparison
             sort_idx = np.argsort(T)
             T_sorted = T[sort_idx]
             iv_sorted = iv[sort_idx]
 
-            # Check if any longer-dated option has lower IV than
-            # a shorter-dated one
             for i in range(len(T_sorted) - 1):
                 if iv_sorted[i + 1] < iv_sorted[i]:
                     violations.append(strike)
