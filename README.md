@@ -24,10 +24,6 @@ The project is intentionally designed as a **Google Summer of Code (GSoC)–leve
 
 ---
 
-## 🏗️ Architecture
-
----
-
 ## ✨ Key Features
 - 📊 **SABR Model Calibration**  
   Fit stochastic volatility parameters across strikes and maturities
