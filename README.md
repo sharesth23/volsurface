@@ -59,32 +59,64 @@ surfaces are handled in **professional derivatives research and risk systems**.
 
 ```
 volsurface/
-├── cleaning/
-│   └── arbitrage.py          # Arbitrage detection and data cleaning
-├── data/
-│   └── fetch_yahoo.py        # Market data fetching (Yahoo Finance, etc.)
-├── experiments/
-│   └── earnings_event.py     # Research experiments (earnings events, etc.)
-├── iv/
-│   └── black_scholes.py      # Black-Scholes implied volatility calculations
-├── models/
-│   ├── sabr.py               # SABR volatility model
-│   ├── sabr_calibration.py   # SABR model calibration
-│   ├── svi.py                # SVI volatility model
-│   └── svi_calibration.py    # SVI model calibration
-├── paper/
-│   └── iv_surface.tex        # LaTeX research paper
-├── surface/
-│   └── surface_builder.py    # Volatility surface construction
+│
+├── volsurface/                  # main package
+│   ├── __init__.py
+│
+│   ├── core/                   # high-level API
+│   │   ├── surface.py          # VolSurface class (main entry point)
+│   │   ├── builder.py          # builds surface from models
+│
+│   ├── models/                 # financial models
+│   │   ├── sabr.py             # SABR model
+│   │   ├── black_scholes.py    # optional baseline
+│
+│   ├── calibration/            # calibration logic
+│   │   ├── sabr_calibration.py
+│   │   ├── objective.py        # loss functions (RMSE etc.)
+│
+│   ├── arbitrage/              # 🔥 key differentiator
+│   │   ├── detection.py        # detect violations
+│   │   ├── correction.py       # fix arbitrage
+│
+│   ├── interpolation/          # surface building
+│   │   ├── spline.py
+│   │   ├── grid.py
+│
+│   ├── data/                   # input handling
+│   │   ├── loader.py
+│   │   ├── cleaning.py
+│
+│   ├── visualization/
+│   │   ├── smile.py
+│   │   ├── surface_plot.py
+│
+│   ├── utils/
+│   │   ├── math.py
+│   │   ├── validation.py
+│
+│   └── config/
+│       ├── settings.py
+│
 ├── tests/
-│   ├── test_arbitrage.py     # Arbitrage detection tests
-│   ├── test_bs.py            # Black-Scholes tests
-│   └── test_sabr.py          # SABR model tests
-├── validation/
-│   └── no_arbitrage.py       # No-arbitrage validation
-└── visualization/
-    ├── smile_plot.py         # Volatility smile plotting
-    └── surface_plot.py       # Volatility surface plotting
+│   ├── test_sabr.py
+│   ├── test_arbitrage.py
+│   ├── test_surface.py
+│
+├── examples/
+│   ├── example_sabr_surface.py
+│   ├── example_real_data.py
+│
+├── docs/
+│   ├── theory.md
+│   ├── usage.md
+│
+├── notebooks/
+│   ├── exploration.ipynb
+│
+├── pyproject.toml
+├── README.md
+└── LICENSE
 ```
 
 ---
