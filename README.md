@@ -24,35 +24,25 @@ The project is intentionally designed as a **Google Summer of Code (GSoC)–leve
 
 ---
 
-## 🎯 Project Motivation (GSoC Context)
-
-Implied volatility surfaces are a core object in:
-
-- derivatives pricing  
-- volatility trading strategies  
-- portfolio and systemic risk analysis  
-
-However, **raw option chain data is noisy, sparse, and frequently violates economic consistency**.  
-Many student projects stop at plotting volatility smiles.
-
-This repository instead focuses on:
-
-> **Correctness, robustness, benchmarking, and reproducible research.**
-
-The goal is to build a **community-usable open-source framework** that mirrors how volatility
-surfaces are handled in **professional derivatives research and risk systems**.
+## 🏗️ Architecture
 
 ---
 
 ## ✨ Key Features
+- 📊 **SABR Model Calibration**  
+  Fit stochastic volatility parameters across strikes and maturities
 
-- ✅ Black–Scholes implied volatility engine  
-- ✅ **SABR volatility model** with constrained calibration  
-- ✅ **SVI volatility model** (total variance parameterization)  
-- ✅ **Benchmark framework** (SABR vs SVI using RMSE)  
-- ✅ Diagnostic plots (smiles & model errors)  
-- ✅ Modular **pip-installable** package  
-- ✅ Research paper (LaTeX) included  
+- 🧮 **Arbitrage Detection & Correction**  
+  Identify and remove static arbitrage violations (butterfly / calendar)
+
+- 📉 **Spline-Based Interpolation**  
+  Smooth volatility surfaces across strike-maturity grids
+
+- 🔍 **Diagnostics & Validation**  
+  Evaluate calibration error and surface consistency
+
+- 📈 **Visualization Tools**  
+  Volatility smile and 3D surface plots
 
 ---
 ## 🗂️ Repository Structure
