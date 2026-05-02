@@ -16,6 +16,13 @@ dependencies = [
     "matplotlib",
     "seaborn"
 ]
+"Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
 
+[project.urls]
+"Homepage" = "https://github.com/sharesth23/volsurface"
 
 
