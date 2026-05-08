@@ -1,5 +1,5 @@
 import pandas as pd
-from cleaning.arbitrage import calendar_arbitrage
+from volsurface.arbitrage.detection import calendar_arbitrage
 
 def test_calendar_arbitrage_detection():
     df = pd.DataFrame({

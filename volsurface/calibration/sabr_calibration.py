@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize
-from sabr import sabr_implied_vol
+from volsurface.models.sabr import sabr_implied_vol
 
 
 def calibrate_sabr(F, strikes, maturities, market_vols, beta=0.5):

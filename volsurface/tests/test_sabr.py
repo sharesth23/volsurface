@@ -1,4 +1,4 @@
-from models.sabr import sabr_implied_vol
+from volsurface.models.sabr import sabr_implied_vol
 
 def test_sabr_positive_vol():
     vol = sabr_implied_vol(
