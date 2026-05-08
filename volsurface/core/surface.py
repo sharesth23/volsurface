@@ -2,6 +2,7 @@ import numpy as np
 from scipy.interpolate import SmoothBivariateSpline
 from volsurface.models.svi import  svi_implied_vol
 from volsurface.models.sabr import sabr_implied_vol
+from volsurface.models.heston import heston_implied_vol
 
 class VolSurface:
     def __init__(self, strikes, maturities, vols):
@@ -28,6 +29,16 @@ class ParametricVolSurface:
                 self.params['beta'],
                 self.params['rho'],
                 self.params['nu']
+            )
+        elif self.model_type == "heston":
+            # Heston params: v0, kappa, theta, sigma, rho
+            return heston_implied_vol(
+                self.F, K, T,
+                self.params['v0'],
+                self.params['kappa'],
+                self.params['theta'],
+                self.params['sigma'],
+                self.params['rho']
             )
         else:
             raise ValueError(f"Unknown model type: {self.model_type}")
