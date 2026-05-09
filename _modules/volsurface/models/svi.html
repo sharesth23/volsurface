@@ -80,6 +80,8 @@
 <div class="viewcode-block" id="svi_implied_vol">
 <a class="viewcode-back" href="../../../api.html#volsurface.models.svi.svi_implied_vol">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">svi_implied_vol</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Time to maturity (T) must be strictly positive.&quot;</span><span class="p">)</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">K</span> <span class="o">/</span> <span class="n">F</span><span class="p">)</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">svi_total_variance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="n">T</span><span class="p">)</span></div>
