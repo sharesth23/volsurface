@@ -67,10 +67,7 @@ def butterfly_arbitrage(df: pd.DataFrame, S: float = 100.0, r: float = 0.0):
         strikes = grp["strike"].values
         vols = grp["implied_vol"].values
 
-        prices = [
-            bs_call_price(S, K, T, r, sigma)
-            for K, sigma in zip(strikes, vols)
-        ]
+        prices = bs_call_price(S, strikes, T, r, vols)
 
         for i in range(1, len(strikes) - 1):
             K1, K2, K3 = strikes[i-1], strikes[i], strikes[i+1]
