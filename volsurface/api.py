@@ -2,7 +2,7 @@ import numpy as np
 from volsurface.arbitrage.detection import butterfly_arbitrage, calendar_arbitrage
 from volsurface.calibration.svi_calibration import calibrate_svi
 from volsurface.calibration.sabr_calibration import calibrate_sabr
-from volsurface.core.surface import VolSurface, ParametricVolSurface
+from volsurface.core.surface import ParametricVolSurface
 from volsurface.validation.no_arbitrage import validate_surface
 
 class VolSurfaceAPI:
