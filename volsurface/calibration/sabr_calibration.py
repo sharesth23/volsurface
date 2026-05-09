@@ -4,13 +4,15 @@ from volsurface.models.sabr import sabr_implied_vol
 
 
 def calibrate_sabr(F, strikes, maturities, market_vols, beta=0.5):
+    # Ensure inputs are arrays
+    strikes = np.asarray(strikes)
+    maturities = np.asarray(maturities)
+    market_vols = np.asarray(market_vols)
+
     def objective(params):
         alpha, rho, nu = params
-        model_vols = [
-            sabr_implied_vol(F, K, T, alpha, beta, rho, nu)
-            for K, T in zip(strikes, maturities)
-        ]
-        return np.mean((np.array(model_vols) - market_vols)**2)
+        model_vols = sabr_implied_vol(F, strikes, maturities, alpha, beta, rho, nu)
+        return np.mean((model_vols - market_vols)**2)
 
     bounds = [(1e-4, 5.0), (-0.999, 0.999), (1e-4, 5.0)]
     x0 = [0.2, 0.0, 0.5]
