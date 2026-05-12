@@ -1,4 +1,3 @@
-import numpy as np
 from scipy.interpolate import SmoothBivariateSpline
 from volsurface.models.svi import  svi_implied_vol
 from volsurface.models.sabr import sabr_implied_vol
