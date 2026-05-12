@@ -7,8 +7,7 @@ from volsurface.iv.black_scholes import bs_call_price
 
 def calendar_arbitrage(
     df: Optional[pd.DataFrame] = None,
-    ticker: Optional[str] = None,
-    expiry: Optional[str] = None
+    ticker: Optional[str] = None
 ):
     if df is None:
         if ticker is not None:
