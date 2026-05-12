@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def sabr_implied_vol(F, K, T, alpha, beta, rho, nu):
     F = np.asarray(F)
     K = np.asarray(K)
@@ -17,15 +18,17 @@ def sabr_implied_vol(F, K, T, alpha, beta, rho, nu):
             return np.nan
         if abs(F_val - K_val) < 1e-8:
             return (alpha / (F_val ** (1 - beta))) * (
-                1 + (
-                    ((1 - beta)**2 / 24) * (alpha**2 / F_val**(2 - 2*beta)) +
-                    (rho * beta * nu * alpha) / (4 * F_val**(1 - beta)) +
-                    ((2 - 3*rho**2) * nu**2 / 24)
-                ) * T_val
+                1
+                + (
+                    ((1 - beta) ** 2 / 24) * (alpha**2 / F_val ** (2 - 2 * beta))
+                    + (rho * beta * nu * alpha) / (4 * F_val ** (1 - beta))
+                    + ((2 - 3 * rho**2) * nu**2 / 24)
+                )
+                * T_val
             )
-        z = (nu / alpha) * (F_val * K_val)**((1 - beta) / 2) * np.log(F_val / K_val)
-        x = np.log((np.sqrt(1 - 2*rho*z + z*z) + z - rho) / (1 - rho))
-        return (alpha / ((F_val * K_val)**((1 - beta)/2))) * (z / x)
+        z = (nu / alpha) * (F_val * K_val) ** ((1 - beta) / 2) * np.log(F_val / K_val)
+        x = np.log((np.sqrt(1 - 2 * rho * z + z * z) + z - rho) / (1 - rho))
+        return (alpha / ((F_val * K_val) ** ((1 - beta) / 2))) * (z / x)
 
     # Pre-allocate output
     res = np.empty(F.shape)
@@ -51,9 +54,9 @@ def sabr_implied_vol(F, K, T, alpha, beta, rho, nu):
         T_atm = T_v[atm_mask]
 
         term1 = alpha / (F_atm ** (1 - beta))
-        term2 = ((1 - beta)**2 / 24) * (alpha**2 / F_atm**(2 - 2*beta))
-        term3 = (rho * beta * nu * alpha) / (4 * F_atm**(1 - beta))
-        term4 = ((2 - 3*rho**2) * nu**2 / 24)
+        term2 = ((1 - beta) ** 2 / 24) * (alpha**2 / F_atm ** (2 - 2 * beta))
+        term3 = (rho * beta * nu * alpha) / (4 * F_atm ** (1 - beta))
+        term4 = (2 - 3 * rho**2) * nu**2 / 24
 
         res_v[atm_mask] = term1 * (1 + (term2 + term3 + term4) * T_atm)
 
@@ -62,10 +65,10 @@ def sabr_implied_vol(F, K, T, alpha, beta, rho, nu):
         F_otm = F_v[otm_mask]
         K_otm = K_v[otm_mask]
 
-        z = (nu / alpha) * (F_otm * K_otm)**((1 - beta) / 2) * np.log(F_otm / K_otm)
-        x = np.log((np.sqrt(1 - 2*rho*z + z*z) + z - rho) / (1 - rho))
+        z = (nu / alpha) * (F_otm * K_otm) ** ((1 - beta) / 2) * np.log(F_otm / K_otm)
+        x = np.log((np.sqrt(1 - 2 * rho * z + z * z) + z - rho) / (1 - rho))
 
-        res_v[otm_mask] = (alpha / ((F_otm * K_otm)**((1 - beta)/2))) * (z / x)
+        res_v[otm_mask] = (alpha / ((F_otm * K_otm) ** ((1 - beta) / 2))) * (z / x)
 
     res[valid_mask] = res_v
     return res

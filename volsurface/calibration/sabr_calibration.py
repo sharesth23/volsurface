@@ -12,7 +12,7 @@ def calibrate_sabr(F, strikes, maturities, market_vols, beta=0.5):
     def objective(params):
         alpha, rho, nu = params
         model_vols = sabr_implied_vol(F, strikes, maturities, alpha, beta, rho, nu)
-        return np.mean((model_vols - market_vols)**2)
+        return np.mean((model_vols - market_vols) ** 2)
 
     bounds = [(1e-4, 5.0), (-0.999, 0.999), (1e-4, 5.0)]
     x0 = [0.2, 0.0, 0.5]

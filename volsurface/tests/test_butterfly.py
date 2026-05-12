@@ -1,6 +1,7 @@
 import pandas as pd
 from volsurface.arbitrage.detection import butterfly_arbitrage
 
+
 def test_butterfly_arbitrage_detection():
     # Example where butterfly arbitrage exists (non-convex call prices)
     # Price = [10, 8, 7] for strikes [90, 100, 110] -> convex (OK)
@@ -19,11 +20,13 @@ def test_butterfly_arbitrage_detection():
 
     # (13.3 + 4.4) / 2 = 8.85. 19.7 > 8.85, so this should be a violation.
 
-    df = pd.DataFrame({
-        "strike": [90, 100, 110],
-        "time_to_maturity": [1.0, 1.0, 1.0],
-        "implied_vol": [0.2, 0.5, 0.2]
-    })
+    df = pd.DataFrame(
+        {
+            "strike": [90, 100, 110],
+            "time_to_maturity": [1.0, 1.0, 1.0],
+            "implied_vol": [0.2, 0.5, 0.2],
+        }
+    )
 
     violations = butterfly_arbitrage(df, S=100.0, r=0.0)
     assert len(violations) > 0

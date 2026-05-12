@@ -1,6 +1,7 @@
 import yfinance as yf
 import pandas as pd
 
+
 def fetch_option_chain(ticker, expiry):
     tk = yf.Ticker(ticker)
     chain = tk.option_chain(expiry)
