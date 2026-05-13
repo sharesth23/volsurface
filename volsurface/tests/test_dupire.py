@@ -1,33 +1,31 @@
 import numpy as np
-import pytest
 from volsurface.models.dupire import dupire_local_vol
 
+
 class DummySurface:
-    def __init__(self, vol=0.20):
-        self.vol = vol
-
     def iv(self, K, T):
-        return self.vol
+        # Flat vol surface
+        return 0.2
 
-def test_dupire_flat_surface():
-    surface = DummySurface(vol=0.20)
 
-    # For a flat implied volatility surface, local volatility should equal implied volatility
-    loc_vol = dupire_local_vol(T=1.0, K=100.0, surface=surface, F=100.0)
+def test_dupire_flat_vol():
+    surface = DummySurface()
 
-    assert not np.isnan(loc_vol)
-    assert np.isclose(loc_vol, 0.20, atol=1e-4)
+    # For a flat volatility surface, local vol should equal implied vol
+    lv = dupire_local_vol(1.0, 100, surface, F=100)
 
-def test_dupire_arbitrage_surface():
-    # A dummy surface that creates arbitrage (negative variance derivative)
-    class ArbitrageSurface:
+    assert np.isclose(lv, 0.2, atol=1e-4)
+
+
+def test_dupire_invalid_variance():
+    class BadSurface:
         def iv(self, K, T):
             if T > 1.0:
-                return 0.10 # Variance drops drastically
-            return 0.50
+                return 0.1  # Arbitrage! Vol drops fast causing negative variance
+            return 0.5
 
-    surface = ArbitrageSurface()
-    loc_vol = dupire_local_vol(T=1.0, K=100.0, surface=surface, F=100.0)
+    surface = BadSurface()
 
-    # Negative variance derivative should result in NaN
-    assert np.isnan(loc_vol)
+    lv = dupire_local_vol(1.0, 100, surface, F=100)
+
+    assert np.isnan(lv)

@@ -1,7 +1,7 @@
 import numpy as np
-import pytest
 from volsurface.models.heston import heston_call_price, heston_implied_vol
 from volsurface.calibration.heston_calibration import calibrate_heston
+
 
 def test_heston_call_price():
     F = 100.0
@@ -15,6 +15,7 @@ def test_heston_call_price():
     # Expected approximate price for these standard parameters
     assert np.isclose(price, 7.81, atol=0.1)
 
+
 def test_heston_implied_vol():
     F = 100.0
     K = 100.0
@@ -26,6 +27,7 @@ def test_heston_implied_vol():
     assert iv > 0
     # Expected approximate IV
     assert np.isclose(iv, 0.196, atol=0.01)
+
 
 def test_calibrate_heston():
     F = 100.0

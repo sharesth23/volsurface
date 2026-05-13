@@ -1,50 +1,45 @@
-import numpy as np 
+import numpy as np
+import pandas as pd
+from typing import Union
+from volsurface.core.surface import ParametricVolSurface
+from volsurface.models.dupire import dupire_local_vol
 from volsurface.calibration.svi_calibration import calibrate_svi
 from volsurface.calibration.sabr_calibration import calibrate_sabr
-from volsurface.core.surface import ParametricVolSurface
-from volsurface.validation.no_arbitrage import validate_surface
+
 
 class VolSurfaceAPI:
-    def __init__(self, option_chain, model="svi", F=None):
-        """
-        option_chain: pd.DataFrame with columns ['strike', 'time_to_maturity', 'implied_vol']
-        model: 'svi' or 'sabr'
-        F: Forward price. If None, it might be estimated or required.
-        """
-        self.option_chain = option_chain
+    """
+    Main entry point for the library to build, calibrate, and query surfaces.
+    """
+
+    def __init__(self, data: pd.DataFrame, model: str = "svi", F: float = 100.0):
+        self.data = data
         self.model = model
         self.F = F
-        self.surface = None
+        self.params = None
+        self.surface_obj = None
 
     def calibrate(self):
-        strikes = self.option_chain['strike'].values
-        maturities = self.option_chain['time_to_maturity'].values
-        vols = self.option_chain['implied_vol'].values
-
-        if self.F is None:
-            # Simple heuristic if F is not provided: use ATM strike if possible or mean
-            self.F = np.mean(strikes)
-
-        if self.model == "svi":
-            # calibrate_svi(F, strikes, T, vols)
-            # SVI is usually calibrated per slice, but here we might be doing a simplistic fit
-            # For a real library, we'd handle multiple expiries.
-            # Assuming a single expiry for now as per the current calibrate_svi signature
-            T = maturities[0]
-            params = calibrate_svi(self.F, strikes, T, vols)
-            self.surface = ParametricVolSurface("svi", params, F=self.F)
-
-        elif self.model == "sabr":
-            # calibrate_sabr(F, strikes, maturities, market_vols, beta=0.5)
-            params = calibrate_sabr(self.F, strikes, maturities, vols)
-            self.surface = ParametricVolSurface("sabr", params, F=self.F)
-        else:
+        if self.model not in ["svi", "sabr"]:
             raise ValueError("Model must be 'svi' or 'sabr'")
 
-    def iv(self, strike, maturity):
-        if self.surface is None:
-            raise ValueError("Surface not calibrated. Call calibrate() first.")
-        return self.surface.iv(strike, maturity)
+        strikes = self.data["strike"].values
+        maturities = self.data["time_to_maturity"].values
+        vols = self.data["implied_vol"].values
 
-    def diagnostics(self):
-        return validate_surface(self.option_chain)
+        if self.model == "svi":
+            self.params = calibrate_svi(self.F, strikes, maturities, vols)
+        elif self.model == "sabr":
+            self.params = calibrate_sabr(self.F, strikes, maturities, vols)
+
+        self.surface_obj = ParametricVolSurface(self.model, self.params, self.F)
+
+    def iv(self, K: Union[float, np.ndarray], T: Union[float, np.ndarray]):
+        if self.surface_obj is None:
+            raise ValueError("Model not fitted yet. Call calibrate() first.")
+        return self.surface_obj.iv(K, T)
+
+    def local_vol(self, K: float, T: float):
+        if self.surface_obj is None:
+            raise ValueError("Model not fitted yet. Call calibrate() first.")
+        return dupire_local_vol(T, K, self.surface_obj, self.F)
