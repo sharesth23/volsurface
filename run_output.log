@@ -1,0 +1,8 @@
+Fetching real-world option data for SPY using yfinance...
+Found expiries: ('2026-05-13', '2026-05-14', '2026-05-15')
+Loaded 234 options contracts.
+Current SPY Spot Price: 738.1799926757812
+
+--- Calibrating SVI Volatility Surface ---
+Calibration successful! SVI Params: {'a': np.float64(3.394833374349293e-05), 'b': np.float64(0.000355132412939971), 'rho': np.float64(0.01005763675345922), 'm': np.float64(0.009807897045442902), 'sigma': np.float64(0.009954929836528027)}
+Calculated SVI Implied Vol for Strike 775.09, TTM 0.50: 0.0098
