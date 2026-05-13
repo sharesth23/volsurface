@@ -70,9 +70,10 @@
              
   <h1>Source code for volsurface.core.surface</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">SmoothBivariateSpline</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">volsurface.models.svi</span><span class="w"> </span><span class="kn">import</span>  <span class="n">svi_implied_vol</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">volsurface.models.svi</span><span class="w"> </span><span class="kn">import</span> <span class="n">svi_implied_vol</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">volsurface.models.sabr</span><span class="w"> </span><span class="kn">import</span> <span class="n">sabr_implied_vol</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">volsurface.models.heston</span><span class="w"> </span><span class="kn">import</span> <span class="n">heston_implied_vol</span>
+
 
 <div class="viewcode-block" id="VolSurface">
 <a class="viewcode-back" href="../../../api.html#volsurface.core.surface.VolSurface">[docs]</a>
@@ -85,6 +86,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spline</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span></div>
 </div>
+
 
 
 <div class="viewcode-block" id="ParametricVolSurface">
@@ -104,21 +106,25 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;sabr&quot;</span><span class="p">:</span>
             <span class="c1"># SABR params: alpha, beta, rho, nu</span>
             <span class="k">return</span> <span class="n">sabr_implied_vol</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">],</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">],</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;nu&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span>
+                <span class="n">K</span><span class="p">,</span>
+                <span class="n">T</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;nu&quot;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;heston&quot;</span><span class="p">:</span>
             <span class="c1"># Heston params: v0, kappa, theta, sigma, rho</span>
             <span class="k">return</span> <span class="n">heston_implied_vol</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;v0&#39;</span><span class="p">],</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;kappa&#39;</span><span class="p">],</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">],</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">],</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span>
+                <span class="n">K</span><span class="p">,</span>
+                <span class="n">T</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;v0&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;kappa&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;theta&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown model type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
